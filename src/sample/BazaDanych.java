@@ -5,6 +5,10 @@ import java.sql.*;
 
 /**
  * Created by sebastian on 26.12.16.
+ *
+ * Ta klasa odpowiada za obsługę bazy danych
+ * dodajemy do niej funkcje ktore poprzez uzycie Wykonaj() wysyłają dane do bazy i Pobierz() bobieraja je
+ *
  */
 public class BazaDanych {
     String path = System.getProperty("user.home") + File.separator + "ZamowieniaFX.db";

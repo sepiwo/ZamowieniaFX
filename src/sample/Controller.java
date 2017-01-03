@@ -8,11 +8,16 @@ import javafx.scene.control.*;
 
 import java.sql.ResultSet;
 
+/*
+//Controller odpowiada za obsługę interfejsu aplikacji wczytuje elementy z pliku fxml ( te z @FXML ) i dodaje im akcje
+*/
 public class Controller {
     final BazaDanych baza = new BazaDanych();
 
     @FXML
     private Label StatusBazy;
+
+    //Wyswietla tabele z osobami:
     @FXML
     private TableView<?> Tabela_zamowienia;
     @FXML
@@ -39,6 +44,8 @@ public class Controller {
     private Label labeIDOsoba;
     @FXML
     private Button buttonZapiszZmianyOsoba;
+
+    //Dopasowanie modelu do tabeli model musi byc zapisany w osobnej klasie jak np w Osoby.java
     @FXML
     private final ObservableList<Osoby> observableListosoby = FXCollections.observableArrayList();
 
@@ -51,7 +58,7 @@ public class Controller {
 
     @FXML
     private Button buttonWyczyscOsoba;
-
+// Inicjalizacja tutaj kontroler wykonuje funkcje poczatkowe
     @FXML
     public void initialize() {
         try {
@@ -60,6 +67,8 @@ public class Controller {
             zmienStatus(false);
         }
         zmienStatus(true);
+
+        //wyrazenia lambda generujace puste komorki
         columnOsobyid.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
         columnOsobyImie.setCellValueFactory(cellData -> cellData.getValue().imieProperty());
         columnOsobyNazwisko.setCellValueFactory(cellData -> cellData.getValue().nazwiskoProperty());
@@ -73,7 +82,7 @@ public class Controller {
 
 
 
-
+    // Ustawia label informujacy ze baza jest podlaczona
     @FXML
     void zmienStatus(boolean status) {
         if (status) {
@@ -82,13 +91,13 @@ public class Controller {
             StatusBazy.setText("Błąd");
         }
     }
-
+    //wyczysczenie pol w celu dodania nowej osoby
     @FXML
     void WyczyscOsobaButtonClicked(ActionEvent event) {
         WyczyscOsoba();
     }
 
-
+    //Reakcja na przycisk dodaj nowa osobe
     @FXML
     void DodajNowaOsoba(ActionEvent event) {
         System.out.println("Dodaje nowa osobe do bazy...");
@@ -98,6 +107,7 @@ public class Controller {
         aktualizujTableOsoby();
 
     }
+    //wyswietlanie danych dla kliknietrj osoby ns liscie
     void PokazOsobe(Osoby osoba){
         textImie.setText(osoba.getImie());
         textNazwisko.setText(osoba.getNazwisko());
@@ -127,7 +137,7 @@ public class Controller {
         labeIDOsoba.setText("---");
         System.out.println("Czyszczenie TextField w tabeli osoby");
     }
-
+    // aktualizowanie tabeli po zmianie wartosci w bazie danych
     void aktualizujTableOsoby() {
 
 
