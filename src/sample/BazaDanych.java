@@ -27,7 +27,7 @@ public class BazaDanych {
 
     public void utworzTabele() {
         try {
-            Wykonaj("CREATE TABLE IF NOT EXISTS OSOBY(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
+            Wykonaj("CREATE TABLE IF NOT EXISTS OSOBY(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon text, email CHAR,stanowisko CHAR)");
             //Wykonaj("CREATE TABLE IF NOT EXISTS TOWAR(id_towar INTEGER PRIMARY KEY AUTOINCREMENT, nazwa TEXT,rozmiar TEXT");
             //Wykonaj("CREATE TABLE IF NOT EXISTS MAGAZYN(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
             //Wykonaj("CREATE TABLE IF NOT EXISTS ZAMOWIENIA(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
@@ -78,7 +78,7 @@ public class BazaDanych {
 
     public void dodajOsobe(NowaOsoba osoba) {
 
-        //            Wykonaj("CREATE TABLE IF NOT EXIST OSOBY(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMEERIC, email CHAR,stanowisko CHAR)");
+        //            Wykonaj("CREATE TABLE IF NOT EXIST OSOBY(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie text,NAZWISKO text, telefon NUMEERIC, email CHAR,stanowisko CHAR)");
         Wykonaj("INSERT INTO OSOBY VALUES (NULL, '" + osoba.imie + "',' " + osoba.nazwisko + "',' " + osoba.telefon + "',' " + osoba.email + "',' " + osoba.stanowisko + "')");
 
     }
@@ -93,8 +93,8 @@ public class BazaDanych {
         }
     }
 
-    public void aktualizujOsoba() {
-        Wykonaj();
+    public void aktualizujOsoba(Osoby osoba) {
+        Wykonaj("update osoby set Imie='"+osoba.getImie()+"',Nazwisko='"+osoba.getNazwisko()+"',telefon='"+osoba.getTelefon()+"',email='"+osoba.getEmail()+"',stanowisko='"+osoba.getStanowisko()+"' where id_osoby="+osoba.getId());
     }
 
 

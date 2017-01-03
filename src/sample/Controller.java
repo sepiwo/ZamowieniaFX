@@ -92,7 +92,7 @@ public class Controller {
     @FXML
     void DodajNowaOsoba(ActionEvent event) {
         System.out.println("Dodaje nowa osobe do bazy...");
-        NowaOsoba osoba = new NowaOsoba(textImie.getText(), textTelefon.getText(), textNazwisko.getText(), textEmail.getText(), textStanowisko.getText());
+        NowaOsoba osoba = new NowaOsoba(textImie.getText(), textNazwisko.getText(), textTelefon.getText(), textEmail.getText(), textStanowisko.getText());
         baza.dodajOsobe(osoba);
         WyczyscOsoba();
         aktualizujTableOsoby();
@@ -102,7 +102,7 @@ public class Controller {
         textImie.setText(osoba.getImie());
         textNazwisko.setText(osoba.getNazwisko());
         textEmail.setText(osoba.getEmail());
-        textTelefon.setText((osoba.getTelefon().toString()));
+        textTelefon.setText(osoba.getTelefon());
         textStanowisko.setText(osoba.getStanowisko());
         labeIDOsoba.setText(osoba.getId().toString());
 
@@ -139,7 +139,7 @@ public class Controller {
             while (resultOsoby.next()) {
             System.out.println("Wynik z bazy\n " + resultOsoby.getInt(1) + resultOsoby.getString(2) + resultOsoby.getString(3) + resultOsoby.getString(4) + resultOsoby.getString(5) + resultOsoby.getString(6));
 
-            observableListosoby.add(new Osoby(resultOsoby.getInt(1), resultOsoby.getString(2), resultOsoby.getString(3), resultOsoby.getInt(4), resultOsoby.getString(5), resultOsoby.getString(6)));
+            observableListosoby.add(new Osoby(resultOsoby.getInt(1), resultOsoby.getString(2), resultOsoby.getString(3), resultOsoby.getString(4), resultOsoby.getString(5), resultOsoby.getString(6)));
 
 
             }
@@ -161,8 +161,13 @@ public class Controller {
 
     @FXML
     void zapiszZmianyOsoba(ActionEvent event){
-        Integer wybranaOsobaID = tableOsoby.getSelectionModel().getSelectedItem().getId();
-        baza.aktualizujOsoba();
+        Osoby zmienionaOsoba = tableOsoby.getSelectionModel().getSelectedItem();
+        zmienionaOsoba.setEmail(textEmail.getText());
+        zmienionaOsoba.setImie(textImie.getText());
+        zmienionaOsoba.setNazwisko(textNazwisko.getText());
+        zmienionaOsoba.setNazwisko(textNazwisko.getText());
+        zmienionaOsoba.setTelefon((textTelefon.getText()));
+        baza.aktualizujOsoba(zmienionaOsoba);
         aktualizujTableOsoby();
 
     }
