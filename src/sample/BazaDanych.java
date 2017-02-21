@@ -27,10 +27,10 @@ public class BazaDanych {
 
     public void utworzTabele() {
         try {
-            Wykonaj("CREATE TABLE IF NOT EXISTS OSOBY(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
-            Wykonaj("CREATE TABLE IF NOT EXISTS TOWAR(id_towar INTEGER PRIMARY KEY AUTOINCREMENT, nazwa TEXT,rozmiar TEXT");
+           // Wykonaj("CREATE TABLE IF NOT EXISTS OSOBY(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
+            //Wykonaj("CREATE TABLE IF NOT EXISTS TOWAR(id_towar INTEGER PRIMARY KEY AUTOINCREMENT, nazwa TEXT,rozmiar TEXT)");
             //Wykonaj("CREATE TABLE IF NOT EXISTS MAGAZYN(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
-            //Wykonaj("CREATE TABLE IF NOT EXISTS ZAMOWIENIA(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
+            Wykonaj("CREATE TABLE IF NOT EXISTS ZAMOWIENIA(id_zamowienia INTEGER PRIMARY KEY AUTOINCREMENT, Towar TEXT, Ilosc TEXT, id_osoby INTEGER)");
             //Wykonaj("CREATE TABLE IF NOT EXISTS PRZYPOMNIENIA(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
 
         } catch (Exception e) {
@@ -76,12 +76,29 @@ public class BazaDanych {
         return wynik;
     }
 
+    public ResultSet getZamowienia(){
+        String polecenie = "SELECT * FROM ZAMOWIENIA";
+        ResultSet wynik = Pobierz(polecenie);
+        return wynik;
+
+    }
     public void dodajOsobe(NowaOsoba osoba) {
 
         //            Wykonaj("CREATE TABLE IF NOT EXIST OSOBY(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMEERIC, email CHAR,stanowisko CHAR)");
         Wykonaj("INSERT INTO OSOBY VALUES (NULL, '" + osoba.imie + "',' " + osoba.nazwisko + "',' " + osoba.telefon + "',' " + osoba.email + "',' " + osoba.stanowisko + "')");
 
     }
+
+
+
+    public void dodajZamowienie(NoweZamowienie zamowienie) {
+
+        //            Wykonaj("CREATE TABLE IF NOT EXIST OSOBY(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMEERIC, email CHAR,stanowisko C +HAR)");
+        Wykonaj("INSERT INTO ZAMOWIENIA VALUES (NULL, '" + zamowienie.towar + "',' " + zamowienie.ilosc + "','" + zamowienie.id_osoby + "')");
+
+    }
+
+
 
     public void UsunOsobe(int ID_osoba){
         try{
@@ -93,6 +110,18 @@ public class BazaDanych {
         }
     }
 
+    public void UsunZamowienie(int ID_zamowienie){
+        try{
+            Wykonaj("Delete from ZAMOWIENIA where id_zamowienia="+ID_zamowienie);
+        }catch (
+                Exception e
+                ){
+            System.out.println("Błąd podczas usuwania zamowienia z bazy!");
+        }
+    }
+    public void aktualizujtabelezamowienia() {
+        //Wykonaj();
+    }
     public void aktualizujOsoba() {
         //Wykonaj();
     }
@@ -108,6 +137,7 @@ public class BazaDanych {
         Wykonaj("INSERT INTO TOWAR VALUES (NULL, '" + towar.nazwa + "',' " + towar.rozmiar + "')");
 
     }
+
     public void UsunTowar(int ID_towar){
         try{
             Wykonaj("Delete from TOWAR where id_towar="+ID_towar);
@@ -119,6 +149,14 @@ public class BazaDanych {
     }
     public void aktualizujTowar() {
         //Wykonaj();
+    }
+
+
+    public String imieNazwiskoPracownika(int id_osoby) throws SQLException {
+        String polecenie = "SELECT * FROM OSOBY where id_osoby =" +id_osoby;
+        ResultSet wynik = Pobierz(polecenie);
+
+        return wynik.getString("Imie") + " " + wynik.getString("NAZWISKO");
     }
 }
 

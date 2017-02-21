@@ -53,6 +53,10 @@ public class Osoby {
         return nazwisko.get();
     }
 
+    public String getImieNazwisko() {
+        return imie.get() + " " + nazwisko.get();
+    }
+
     public SimpleStringProperty nazwiskoProperty() {
         return nazwisko;
     }
@@ -95,5 +99,10 @@ public class Osoby {
 
     public void setTelefon(Integer telefon) {
         this.telefon.set(telefon);
+    }
+
+    @Override
+    public String toString() {
+        return getImie() + " " + getNazwisko();
     }
 }
