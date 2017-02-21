@@ -13,17 +13,17 @@ public class Osoby {
     private final SimpleStringProperty nazwisko;
     private final SimpleStringProperty stanowisko;
     private final SimpleStringProperty email;
-    private final SimpleStringProperty telefon;
+    private final SimpleIntegerProperty telefon;
+    //            Wy(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMEERIC, email CHAR,stanowisko CHAR)");
 
-        public Osoby(Integer id, String imie, String nazwisko,String telefon, String email, String stanowisko) {
+        public Osoby(Integer id, String imie, String nazwisko,Integer telefon, String email, String stanowisko) {
         this.id = new SimpleIntegerProperty(id);
         this.imie =  new SimpleStringProperty(imie);
         this.nazwisko =  new SimpleStringProperty(nazwisko);
         this.stanowisko = new SimpleStringProperty(stanowisko);
         this.email = new SimpleStringProperty(email);
-            this.telefon = new SimpleStringProperty(telefon);
-
-        }
+        this.telefon = new SimpleIntegerProperty(telefon);
+    }
 
     public Integer getId() {
         return id.get();
@@ -85,15 +85,15 @@ public class Osoby {
         this.email.set(email);
     }
 
-    public String getTelefon() {
+    public Integer getTelefon() {
         return telefon.get();
     }
 
-    public SimpleStringProperty telefonProperty() {
+    public SimpleIntegerProperty telefonProperty() {
         return telefon;
     }
 
-    public void setTelefon(String telefon) {
+    public void setTelefon(Integer telefon) {
         this.telefon.set(telefon);
     }
 }

@@ -5,10 +5,6 @@ import java.sql.*;
 
 /**
  * Created by sebastian on 26.12.16.
- *
- * Ta klasa odpowiada za obsługę bazy danych
- * dodajemy do niej funkcje ktore poprzez uzycie Wykonaj() wysyłają dane do bazy i Pobierz() bobieraja je
- *
  */
 public class BazaDanych {
     String path = System.getProperty("user.home") + File.separator + "ZamowieniaFX.db";
@@ -31,8 +27,8 @@ public class BazaDanych {
 
     public void utworzTabele() {
         try {
-            Wykonaj("CREATE TABLE IF NOT EXISTS OSOBY(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon text, email CHAR,stanowisko CHAR)");
-            //Wykonaj("CREATE TABLE IF NOT EXISTS TOWAR(id_towar INTEGER PRIMARY KEY AUTOINCREMENT, nazwa TEXT,rozmiar TEXT");
+            Wykonaj("CREATE TABLE IF NOT EXISTS OSOBY(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
+            Wykonaj("CREATE TABLE IF NOT EXISTS TOWAR(id_towar INTEGER PRIMARY KEY AUTOINCREMENT, nazwa TEXT,rozmiar TEXT");
             //Wykonaj("CREATE TABLE IF NOT EXISTS MAGAZYN(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
             //Wykonaj("CREATE TABLE IF NOT EXISTS ZAMOWIENIA(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
             //Wykonaj("CREATE TABLE IF NOT EXISTS PRZYPOMNIENIA(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
@@ -82,7 +78,7 @@ public class BazaDanych {
 
     public void dodajOsobe(NowaOsoba osoba) {
 
-        //            Wykonaj("CREATE TABLE IF NOT EXIST OSOBY(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie text,NAZWISKO text, telefon NUMEERIC, email CHAR,stanowisko CHAR)");
+        //            Wykonaj("CREATE TABLE IF NOT EXIST OSOBY(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMEERIC, email CHAR,stanowisko CHAR)");
         Wykonaj("INSERT INTO OSOBY VALUES (NULL, '" + osoba.imie + "',' " + osoba.nazwisko + "',' " + osoba.telefon + "',' " + osoba.email + "',' " + osoba.stanowisko + "')");
 
     }
@@ -97,12 +93,35 @@ public class BazaDanych {
         }
     }
 
-    public void aktualizujOsoba(Osoby osoba) {
-        Wykonaj("update osoby set Imie='"+osoba.getImie()+"',Nazwisko='"+osoba.getNazwisko()+"',telefon='"+osoba.getTelefon()+"',email='"+osoba.getEmail()+"',stanowisko='"+osoba.getStanowisko()+"' where id_osoby="+osoba.getId());
+    public void aktualizujOsoba() {
+        //Wykonaj();
     }
 
+    public ResultSet getTowary() {
+        String polecenie = "SELECT * FROM TOWAR";
+        ResultSet wynik = Pobierz(polecenie);
+        return wynik;
+    }
+    public void dodajTowar(NowyTowar towar) {
 
+        //            Wykonaj("CREATE TABLE IF NOT EXISTS TOWAR(id_towar INTEGER PRIMARY KEY AUTOINCREMENT, nazwa TEXT,rozmiar TEXT");
+        Wykonaj("INSERT INTO TOWAR VALUES (NULL, '" + towar.nazwa + "',' " + towar.rozmiar + "')");
+
+    }
+    public void UsunTowar(int ID_towar){
+        try{
+            Wykonaj("Delete from TOWAR where id_towar="+ID_towar);
+        }catch (
+                Exception e
+                ){
+            System.out.println("Błąd podczas usuwania towaru z bazy!");
+        }
+    }
+    public void aktualizujTowar() {
+        //Wykonaj();
+    }
 }
+
 
 
 

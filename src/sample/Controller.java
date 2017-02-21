@@ -8,20 +8,33 @@ import javafx.scene.control.*;
 
 import java.sql.ResultSet;
 
-/*
-//Controller odpowiada za obsługę interfejsu aplikacji wczytuje elementy z pliku fxml ( te z @FXML ) i dodaje im akcje
-*/
 public class Controller {
     final BazaDanych baza = new BazaDanych();
 
     @FXML
     private Label StatusBazy;
-
-    //Wyswietla tabele z osobami:
     @FXML
-    private TableView<?> Tabela_zamowienia;
+    private TableView<Towar> tableTowar;
     @FXML
-    private TableView<Osoby> tableOsoby;
+    private TableColumn<Towar, Integer> columnTowarid;
+    @FXML
+    private TableColumn<Towar, String> columnTowarNazwa;
+    @FXML
+    private TableColumn<Towar, String> columnTowarRozmiar;
+    @FXML
+    private Button buttonDodajNowyTowar;
+    @FXML
+    private TextField textNazwa;
+    @FXML
+    private TextField textRozmiar;
+    @FXML
+    private Label labeIDTowar;
+    @FXML
+    private Button buttonZapiszZmianyTowar;
+    @FXML
+    private final ObservableList<Towar> observableListtowar = FXCollections.observableArrayList();
+    @FXML
+    protected TableView<Osoby> tableOsoby;
     @FXML
     private TableColumn<Osoby, Integer> columnOsobyid;
     @FXML
@@ -44,8 +57,6 @@ public class Controller {
     private Label labeIDOsoba;
     @FXML
     private Button buttonZapiszZmianyOsoba;
-
-    //Dopasowanie modelu do tabeli model musi byc zapisany w osobnej klasie jak np w Osoby.java
     @FXML
     private final ObservableList<Osoby> observableListosoby = FXCollections.observableArrayList();
 
@@ -58,7 +69,8 @@ public class Controller {
 
     @FXML
     private Button buttonWyczyscOsoba;
-// Inicjalizacja tutaj kontroler wykonuje funkcje poczatkowe
+
+
     @FXML
     public void initialize() {
         try {
@@ -67,8 +79,6 @@ public class Controller {
             zmienStatus(false);
         }
         zmienStatus(true);
-
-        //wyrazenia lambda generujace puste komorki
         columnOsobyid.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
         columnOsobyImie.setCellValueFactory(cellData -> cellData.getValue().imieProperty());
         columnOsobyNazwisko.setCellValueFactory(cellData -> cellData.getValue().nazwiskoProperty());
@@ -77,12 +87,19 @@ public class Controller {
 
 
         aktualizujTableOsoby();
+        columnTowarid.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
+        columnTowarNazwa.setCellValueFactory(cellData -> cellData.getValue().nazwaProperty());
+        columnTowarRozmiar.setCellValueFactory(cellData -> cellData.getValue().rozmiarProperty());
 
+        tableTowar.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> PokazTowar(newValue));
+
+
+        aktualizujTableTowar();
     }
 
 
 
-    // Ustawia label informujacy ze baza jest podlaczona
+
     @FXML
     void zmienStatus(boolean status) {
         if (status) {
@@ -91,28 +108,27 @@ public class Controller {
             StatusBazy.setText("Błąd");
         }
     }
-    //wyczysczenie pol w celu dodania nowej osoby
+
     @FXML
     void WyczyscOsobaButtonClicked(ActionEvent event) {
         WyczyscOsoba();
     }
 
-    //Reakcja na przycisk dodaj nowa osobe
+
     @FXML
     void DodajNowaOsoba(ActionEvent event) {
         System.out.println("Dodaje nowa osobe do bazy...");
-        NowaOsoba osoba = new NowaOsoba(textImie.getText(), textNazwisko.getText(), textTelefon.getText(), textEmail.getText(), textStanowisko.getText());
+        NowaOsoba osoba = new NowaOsoba(textImie.getText(), textTelefon.getText(), textNazwisko.getText(), textEmail.getText(), textStanowisko.getText());
         baza.dodajOsobe(osoba);
         WyczyscOsoba();
         aktualizujTableOsoby();
 
     }
-    //wyswietlanie danych dla kliknietrj osoby ns liscie
     void PokazOsobe(Osoby osoba){
         textImie.setText(osoba.getImie());
         textNazwisko.setText(osoba.getNazwisko());
         textEmail.setText(osoba.getEmail());
-        textTelefon.setText(osoba.getTelefon());
+        textTelefon.setText((osoba.getTelefon().toString()));
         textStanowisko.setText(osoba.getStanowisko());
         labeIDOsoba.setText(osoba.getId().toString());
 
@@ -137,7 +153,7 @@ public class Controller {
         labeIDOsoba.setText("---");
         System.out.println("Czyszczenie TextField w tabeli osoby");
     }
-    // aktualizowanie tabeli po zmianie wartosci w bazie danych
+
     void aktualizujTableOsoby() {
 
 
@@ -149,7 +165,7 @@ public class Controller {
             while (resultOsoby.next()) {
             System.out.println("Wynik z bazy\n " + resultOsoby.getInt(1) + resultOsoby.getString(2) + resultOsoby.getString(3) + resultOsoby.getString(4) + resultOsoby.getString(5) + resultOsoby.getString(6));
 
-            observableListosoby.add(new Osoby(resultOsoby.getInt(1), resultOsoby.getString(2), resultOsoby.getString(3), resultOsoby.getString(4), resultOsoby.getString(5), resultOsoby.getString(6)));
+            observableListosoby.add(new Osoby(resultOsoby.getInt(1), resultOsoby.getString(2), resultOsoby.getString(3), resultOsoby.getInt(4), resultOsoby.getString(5), resultOsoby.getString(6)));
 
 
             }
@@ -171,18 +187,86 @@ public class Controller {
 
     @FXML
     void zapiszZmianyOsoba(ActionEvent event){
-        Osoby zmienionaOsoba = tableOsoby.getSelectionModel().getSelectedItem();
-        zmienionaOsoba.setEmail(textEmail.getText());
-        zmienionaOsoba.setImie(textImie.getText());
-        zmienionaOsoba.setNazwisko(textNazwisko.getText());
-        zmienionaOsoba.setNazwisko(textNazwisko.getText());
-        zmienionaOsoba.setTelefon((textTelefon.getText()));
-        baza.aktualizujOsoba(zmienionaOsoba);
+        Integer wybranaOsobaID = tableOsoby.getSelectionModel().getSelectedItem().getId();
+        baza.aktualizujOsoba();
         aktualizujTableOsoby();
 
     }
+    @FXML
+    void WyczyscTowarButtonClicked(ActionEvent actionEvent) {
+        WyczyscTowar();
+    }
+    @FXML
+    void DodajNowyTowar(ActionEvent actionEvent) {
+        System.out.println("Dodaje nowy towar do bazy...");
+        NowyTowar towar = new NowyTowar(textNazwa.getText(), textRozmiar.getText());
+        baza.dodajTowar(towar);
+        WyczyscTowar();
+        aktualizujTableTowar();
+    }
+    void PokazTowar(Towar towar){
+        textImie.setText(towar.getNazwa());
+        textNazwisko.setText(towar.getrozmiar());
+    }
+    @FXML
+    void UsunTowarButtonClicked(ActionEvent actionEvent) {
+        Integer wybranaTowarID = tableTowar.getSelectionModel().getSelectedItem().getId();
+        baza.UsunTowar(wybranaTowarID);
+        WyczyscTowar();
+        aktualizujTableTowar();
+    }
+
+    void WyczyscTowar() {
+        textNazwa.clear();
+        textRozmiar.clear();
+        labeIDTowar.setText("---");
+        System.out.println("Czyszczenie TextField w tabeli towar");
+    }
+
+    void aktualizujTableTowar() {
+
+        try{
+            ResultSet resultTowar = baza.getTowary();
+            observableListtowar.clear();
+            System.out.println("Aktualizowanie tabeli Towar...");
+
+            while (resultTowar.next()) {
+                System.out.println("Wynik z bazy\n " + resultTowar.getInt(1) + resultTowar.getString(2) + resultTowar.getString(3));
+
+                observableListtowar.add(new Towar(resultTowar.getInt(1), resultTowar.getString(2), resultTowar.getString(3)));
+
+
+            }
+
+            tableTowar.setItems(getTowardane());
+
+        }catch(Exception e){
+            System.out.println(e);
+
+        }
+
 
 
     }
+
+    public ObservableList<Towar> getTowardane() {
+        return observableListtowar;
+    }
+    @FXML
+    void zapiszZmianyTowar(ActionEvent actionEvent) {
+        Integer wybranaTowarID = tableTowar.getSelectionModel().getSelectedItem().getId();
+        baza.aktualizujTowar();
+        aktualizujTableTowar();
+    }
+
+
+
+
+
+
+
+
+
+}
 
 
