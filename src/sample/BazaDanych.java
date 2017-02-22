@@ -28,7 +28,7 @@ public class BazaDanych {
     public void utworzTabele() {
         try {
             Wykonaj("CREATE TABLE IF NOT EXISTS OSOBY(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
-            Wykonaj("CREATE TABLE IF NOT EXISTS TOWAR(id_towar INTEGER PRIMARY KEY AUTOINCREMENT, nazwa TEXT,rozmiar TEXT)");
+            Wykonaj("CREATE TABLE IF NOT EXISTS TOWAR(id_towar INTEGER PRIMARY KEY AUTOINCREMENT, nazwa TEXT,rozmiar TEXT, cena INTEGER)");
             //Wykonaj("CREATE TABLE IF NOT EXISTS MAGAZYN(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
             Wykonaj("CREATE TABLE IF NOT EXISTS ZAMOWIENIA(id_zamowienia INTEGER PRIMARY KEY AUTOINCREMENT, Towar TEXT, Ilosc TEXT, id_osoby INTEGER)");
             //Wykonaj("CREATE TABLE IF NOT EXISTS PRZYPOMNIENIA(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
@@ -135,7 +135,7 @@ public class BazaDanych {
     public void dodajTowar(NowyTowar towar) {
 
         //            Wykonaj("CREATE TABLE IF NOT EXISTS TOWAR(id_towar INTEGER PRIMARY KEY AUTOINCREMENT, nazwa TEXT,rozmiar TEXT");
-        Wykonaj("INSERT INTO TOWAR VALUES (NULL, '" + towar.nazwa + "',' " + towar.rozmiar + "')");
+        Wykonaj("INSERT INTO TOWAR VALUES (NULL, '" + towar.nazwa + "',' " + towar.rozmiar + "', '" + towar.cena + "')");
 
     }
 

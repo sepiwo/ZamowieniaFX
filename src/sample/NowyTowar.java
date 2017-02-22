@@ -6,11 +6,12 @@ package sample;
 public class NowyTowar {
         public String nazwa;
         public String rozmiar;
+        public String cena;
 
-
-        public NowyTowar(String nazwa, String rozmiar) {
+        public NowyTowar(String nazwa, String rozmiar, String cena) {
             this.nazwa = nazwa;
             this.rozmiar = rozmiar;
+            this.cena = cena;
 
         }
 }

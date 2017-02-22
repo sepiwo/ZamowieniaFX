@@ -23,11 +23,15 @@ public class Controller {
     @FXML
     private TableColumn<Towar, String> columnTowaryRozmiar;
     @FXML
+    private TableColumn<Towar, Integer> columnTowaryCena;
+    @FXML
     private Button buttonDodajNowyTowar;
     @FXML
     private TextField textNazwa;
     @FXML
     private TextField textRozmiar;
+    @FXML
+    private TextField textCena;
     @FXML
     private Label labeIDTowar;
     @FXML
@@ -106,6 +110,7 @@ public class Controller {
         columnTowaryid.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
         columnTowaryNazwa.setCellValueFactory(cellData -> cellData.getValue().nazwaProperty());
         columnTowaryRozmiar.setCellValueFactory(cellData -> cellData.getValue().rozmiarProperty());
+        columnTowaryCena.setCellValueFactory(cellData -> cellData.getValue().getCenaProperty().asObject());
 
         Tabela_towar.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> PokazTowar(newValue));
 
@@ -235,7 +240,7 @@ public class Controller {
     @FXML
     void DodajNowyTowar(ActionEvent actionEvent) {
         System.out.println("Dodaje nowy towar do bazy...");
-        NowyTowar towar = new NowyTowar(textNazwa.getText(), textRozmiar.getText());
+        NowyTowar towar = new NowyTowar(textNazwa.getText(), textRozmiar.getText(), textCena.getText());
         baza.dodajTowar(towar);
         WyczyscTowar();
         aktualizujTableTowar();
@@ -243,6 +248,7 @@ public class Controller {
     void PokazTowar(Towar towar){
         textImie.setText(towar.getNazwa());
         textNazwisko.setText(towar.getrozmiar());
+        textCena.setText(towar.getcena().toString());
     }
     @FXML
     void UsunTowarButtonClicked(ActionEvent actionEvent) {
@@ -255,6 +261,7 @@ public class Controller {
     void WyczyscTowar() {
         textNazwa.clear();
         textRozmiar.clear();
+        textCena.clear();
         labeIDTowar.setText("---");
         System.out.println("Czyszczenie TextField w tabeli towar");
     }
@@ -267,10 +274,14 @@ public class Controller {
             System.out.println("Aktualizowanie tabeli Towar...");
 
             while (resultTowar.next()) {
-                System.out.println("Wynik z bazy\n " + resultTowar.getInt(1) + resultTowar.getString(2) + resultTowar.getString(3));
+                System.out.println("Wynik z bazy\n " + resultTowar.getInt(1) +
+                        resultTowar.getString(2) +
+                        resultTowar.getString(3) +
+                        resultTowar.getString(4));
+
 
                 observableListtowar.add(new Towar(resultTowar.getInt(1),
-                        resultTowar.getString(2), resultTowar.getString(3)));
+                        resultTowar.getString(2), resultTowar.getString(3), resultTowar.getInt(4)));
 
 
             }

@@ -10,11 +10,13 @@ public class Towar {
     private final SimpleIntegerProperty id;
     private final SimpleStringProperty nazwa;
     private final SimpleStringProperty rozmiar;
+    private final SimpleIntegerProperty cena;
 
-    public Towar(Integer id, String nazwa, String rozmiar) {
+    public Towar(Integer id, String nazwa, String rozmiar, Integer cena ) {
         this.id = new SimpleIntegerProperty(id);
         this.nazwa = new SimpleStringProperty(nazwa);
         this.rozmiar = new SimpleStringProperty(rozmiar);
+        this.cena = new SimpleIntegerProperty(cena);
     }
     public Integer getId() {
         return id.get();
@@ -28,6 +30,7 @@ public class Towar {
         this.id.set(id);
     }
 
+
     public String getNazwa() {
         return nazwa.get();
     }
@@ -40,6 +43,7 @@ public class Towar {
         this.nazwa.set(nazwa);
     }
 
+
     public String getrozmiar() {
         return rozmiar.get();
     }
@@ -50,6 +54,22 @@ public class Towar {
 
     public void setrozmiar(String rozmiar) {
         this.rozmiar.set(rozmiar);
+    }
+
+
+    public Integer getcena()
+    {
+        return cena.get();
+    }
+
+    public SimpleIntegerProperty getCenaProperty()
+    {
+        return cena;
+    }
+
+    public void setcena(Integer cena)
+    {
+        this.cena.set(cena);
     }
 
 
