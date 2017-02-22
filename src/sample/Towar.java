@@ -72,5 +72,8 @@ public class Towar {
         this.cena.set(cena);
     }
 
-
+    @Override
+    public String toString() {
+        return nazwa.get();
+    }
 }

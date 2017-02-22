@@ -11,14 +11,16 @@ public class Zamowienie {
     private final SimpleStringProperty towar;
     private final SimpleStringProperty ilosc;
     private final SimpleStringProperty pracownik;
+    private final SimpleStringProperty nazwaTowaru;
 
     //            Wy(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMEERIC, email CHAR,stanowisko CHAR)");
 
-    public Zamowienie(Integer id, String towar, String ilosc, String pracownik) {
+    public Zamowienie(Integer id, String towar, String ilosc, String pracownik, String nazwaTowaru) {
         this.id = new SimpleIntegerProperty(id);
         this.towar = new SimpleStringProperty(towar);
         this.ilosc = new SimpleStringProperty(ilosc);
         this.pracownik = new SimpleStringProperty(pracownik);
+        this.nazwaTowaru = new SimpleStringProperty(nazwaTowaru);
     }
 
     public Integer getId() {
@@ -53,7 +55,17 @@ public class Zamowienie {
 
     public void setIlosc(String ilosc) {this.ilosc.set(ilosc);}
 
-    public SimpleStringProperty PracownikProperty(){return pracownik;}
+
+
+    public SimpleStringProperty PracownikProperty()
+    {
+        return pracownik;
+    }
+
+    public SimpleStringProperty NazwaTowaruProperty()
+    {
+        return nazwaTowaru;
+    }
 
 
 }

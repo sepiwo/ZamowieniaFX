@@ -172,10 +172,10 @@
                         <TableView fx:id="tableZamowienia" prefHeight="234.0" prefWidth="600.0">
                           <columns>
                             <TableColumn fx:id="columnZamowieniaID" editable="false" prefWidth="75.0" text="ID" />
-                            <TableColumn fx:id="columnZamowieniaTowar" editable="false" prefWidth="160.0" text="Towar" />
+                              <TableColumn fx:id="columnZamowieniaTowar" editable="false" prefWidth="160.0" text="Towar" />
                              <TableColumn fx:id="columnZamowieniaIlosc" editable="false" prefWidth="65.0" text="Ilość" />
                              <TableColumn fx:id="columnZamowieniaPracownik" editable="false" prefWidth="156.0" text="Pracownik" />
-                             <TableColumn fx:id="columnZamowieniaStatus" editable="false" prefWidth="142.0" text="Koszt" />
+                             <TableColumn fx:id="columnZamowieniaKoszt" editable="false" prefWidth="142.0" text="Koszt" />
                           </columns>
                         </TableView>
                         <GridPane layoutX="393.0" layoutY="267.0">
@@ -203,7 +203,8 @@
                               <Label text="Towar" />
                               <Label text="Ilość" GridPane.rowIndex="1" />
                               <Label text="Pracownik" GridPane.rowIndex="2" />
-                              <TextField fx:id="textTowar" GridPane.columnIndex="1" />
+                             <!-- <TextField fx:id="textTowar" GridPane.columnIndex="1" /> -->
+                              <ComboBox fx:id="towarComboBox" prefHeight="25.0" prefWidth="219.0" promptText="wybierz..." GridPane.columnIndex="1" GridPane.rowIndex="0" />
                               <TextField fx:id="textIlosc" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                               <ComboBox fx:id="pracownicyComboBox" prefHeight="25.0" prefWidth="219.0" promptText="wybierz..." GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>

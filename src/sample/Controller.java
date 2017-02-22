@@ -65,7 +65,8 @@ public class Controller {
     @FXML
     private Label labeIDOsoba;
     @FXML
-    private TextField textTowar;
+   // private TextField textTowar;
+    private ComboBox<Towar> towarComboBox;
     @FXML
     private ComboBox<String> pracownicy;
     @FXML
@@ -83,7 +84,7 @@ public class Controller {
     @FXML
     private TableColumn<Zamowienie, String> columnZamowieniaPracownik;
     @FXML
-    private TableColumn<Zamowienie, String> columnZamowieniaStatus;
+    private TableColumn<Zamowienie, String> columnZamowieniaKoszt;
     @FXML
     private ComboBox<Osoby> pracownicyComboBox;
     @FXML
@@ -118,10 +119,11 @@ public class Controller {
         aktualizujTableTowar();
 
         columnZamowieniaID.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
-        columnZamowieniaTowar.setCellValueFactory(cellData -> cellData.getValue().towarProperty());
+        columnZamowieniaTowar.setCellValueFactory(cellData -> cellData.getValue().NazwaTowaruProperty());
         columnZamowieniaIlosc.setCellValueFactory(cellData -> cellData.getValue().IloscProperty());
         columnZamowieniaPracownik.setCellValueFactory(cellData -> cellData.getValue().PracownikProperty());
-        aktualizujPracownicyComboBox();
+        aktualizujComboBoxy();
+
         aktualizujTabeleZamowienia();
 
         tableZamowienia.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> PokazZamowienia(newValue));
@@ -153,17 +155,19 @@ public class Controller {
         baza.dodajOsobe(osoba);
         WyczyscOsoba();
         aktualizujTableOsoby();
-        aktualizujPracownicyComboBox();
+        aktualizujComboBoxy();
 
     }
 
-    private void aktualizujPracownicyComboBox() {
+    private void aktualizujComboBoxy() {
 //        final ObservableList<String> pracownicy = FXCollections.observableArrayList();
 //        for (Osoby osoba : getOsobydane()) {
 //            pracownicy.add(osoba.toString());
 //        }
         pracownicyComboBox.setItems(getOsobydane());
+        towarComboBox.setItems(getTowardane());
     }
+
 
     void PokazOsobe(Osoby osoba){
         textImie.setText(osoba.getImie());
@@ -313,7 +317,7 @@ public class Controller {
     }
 
     void WyczyscZamowienie() {
-        textTowar.clear();
+       //textTowar.clear();
         textIlosc.clear();
         System.out.println("Czyszczenie TextField w tabeli ZAMOWIENIA");
     }
@@ -322,8 +326,9 @@ public class Controller {
     void DodajNoweZamowienie(ActionEvent event) {
         if (textIlosc.getText().trim().isEmpty() ||
                 textIlosc.getText() == null ||
-                textTowar.getText().trim().isEmpty() ||
-                textTowar.getText() == null ||
+               // textTowar.getText().trim().isEmpty() ||
+               // textTowar.getText() == null ||
+                towarComboBox.getSelectionModel().getSelectedItem() == null ||
                 pracownicyComboBox.getSelectionModel().getSelectedItem() == null)
         {
             new Alert(Alert.AlertType.ERROR, "Uzueplnij wszystkie pola przed dodaniem zamowienia!").showAndWait();
@@ -331,12 +336,14 @@ public class Controller {
         }
         else {
             System.out.println("Dodaje nowe zamowienie do bazy...");
-            NoweZamowienie zamowienie = new NoweZamowienie(textTowar.getText(), textIlosc.getText(), pracownicyComboBox.getSelectionModel().getSelectedItem());
+            NoweZamowienie zamowienie = new NoweZamowienie("",
+                                                            textIlosc.getText(),
+                                                            pracownicyComboBox.getSelectionModel().getSelectedItem(),
+                                                            towarComboBox.getSelectionModel().getSelectedItem());
             baza.dodajZamowienie(zamowienie);
             WyczyscZamowienie();
             aktualizujTabeleZamowienia();
         }
-        //WyczyscZamowienie();
     }
 
     private void aktualizujTabeleZamowienia() {
@@ -365,7 +372,19 @@ public class Controller {
                                         }
                                     })
                                     .findFirst()
-                                    .get().getImieNazwisko())));
+                                    .get().getImieNazwisko()),
+
+                                    observableListtowar.stream()
+                                            .filter(p -> {
+                                                try {
+                                                    return p.getId() == resultZamowienia.getInt(5);
+                                                } catch (SQLException e) {
+                                                    e.printStackTrace();
+                                                    return false;
+                                                }
+                                            })
+                                            .findFirst()
+                                            .get().getNazwa()));
 
 
             }
@@ -379,7 +398,7 @@ public class Controller {
     }
 
     void PokazZamowienia(Zamowienie zamowienie){
-        textTowar.setText(zamowienie.getTowar());
+        //textTowar.setText(zamowienie.getTowar());
         textIlosc.setText(zamowienie.getIlosc());
     }
 
