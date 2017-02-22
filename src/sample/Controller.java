@@ -309,12 +309,23 @@ public class Controller {
 
     @FXML
     void DodajNoweZamowienie(ActionEvent event) {
-        System.out.println("Dodaje nowe zamowienie do bazy...");
-        NoweZamowienie zamowienie = new NoweZamowienie(textTowar.getText(), textIlosc.getText(), pracownicyComboBox.getSelectionModel().getSelectedItem());
-        baza.dodajZamowienie(zamowienie);
-        WyczyscZamowienie();
-        aktualizujTabeleZamowienia();
+        if (textIlosc.getText().trim().isEmpty() ||
+                textIlosc.getText() == null ||
+                textTowar.getText().trim().isEmpty() ||
+                textTowar.getText() == null ||
+                pracownicyComboBox.getSelectionModel().getSelectedItem() == null)
+        {
+            new Alert(Alert.AlertType.ERROR, "Uzueplnij wszystkie pola przed dodaniem zamowienia!").showAndWait();
 
+        }
+        else {
+            System.out.println("Dodaje nowe zamowienie do bazy...");
+            NoweZamowienie zamowienie = new NoweZamowienie(textTowar.getText(), textIlosc.getText(), pracownicyComboBox.getSelectionModel().getSelectedItem());
+            baza.dodajZamowienie(zamowienie);
+            WyczyscZamowienie();
+            aktualizujTabeleZamowienia();
+        }
+        //WyczyscZamowienie();
     }
 
     private void aktualizujTabeleZamowienia() {
