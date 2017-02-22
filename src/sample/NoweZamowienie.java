@@ -9,13 +9,14 @@ public class NoweZamowienie {
     public Integer id_osoby;
     private Osoby selectedItem;
     public Integer id_towaru;
+    public Integer koszt;
 
-    public NoweZamowienie(String towar, String ilosc, Osoby selectedItem, Towar selectedTowar) {
+    public NoweZamowienie(String towar, String ilosc, Osoby selectedItem, Towar selectedTowar, Integer koszt) {
         this.towar = towar;
         this.ilosc = ilosc;
         this.selectedItem = selectedItem;
         this.id_osoby = selectedItem.getId();
         this.id_towaru = selectedTowar.getId();
-        
+        this.koszt = koszt;
     }
 }

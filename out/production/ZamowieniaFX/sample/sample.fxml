@@ -175,7 +175,7 @@
                               <TableColumn fx:id="columnZamowieniaTowar" editable="false" prefWidth="160.0" text="Towar" />
                              <TableColumn fx:id="columnZamowieniaIlosc" editable="false" prefWidth="65.0" text="Ilość" />
                              <TableColumn fx:id="columnZamowieniaPracownik" editable="false" prefWidth="156.0" text="Pracownik" />
-                             <TableColumn fx:id="columnZamowieniaStatus" editable="false" prefWidth="142.0" text="Koszt" />
+                             <TableColumn fx:id="columnZamowieniaKoszt" editable="false" prefWidth="142.0" text="Koszt" />
                           </columns>
                         </TableView>
                         <GridPane layoutX="393.0" layoutY="267.0">

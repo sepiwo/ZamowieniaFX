@@ -84,7 +84,7 @@ public class Controller {
     @FXML
     private TableColumn<Zamowienie, String> columnZamowieniaPracownik;
     @FXML
-    private TableColumn<Zamowienie, String> columnZamowieniaKoszt;
+    private TableColumn<Zamowienie, Integer> columnZamowieniaKoszt;
     @FXML
     private ComboBox<Osoby> pracownicyComboBox;
     @FXML
@@ -122,6 +122,8 @@ public class Controller {
         columnZamowieniaTowar.setCellValueFactory(cellData -> cellData.getValue().NazwaTowaruProperty());
         columnZamowieniaIlosc.setCellValueFactory(cellData -> cellData.getValue().IloscProperty());
         columnZamowieniaPracownik.setCellValueFactory(cellData -> cellData.getValue().PracownikProperty());
+        columnZamowieniaKoszt.setCellValueFactory(c -> c.getValue().KosztProperty().asObject());
+
         aktualizujComboBoxy();
 
         aktualizujTabeleZamowienia();
@@ -339,7 +341,8 @@ public class Controller {
             NoweZamowienie zamowienie = new NoweZamowienie("",
                                                             textIlosc.getText(),
                                                             pracownicyComboBox.getSelectionModel().getSelectedItem(),
-                                                            towarComboBox.getSelectionModel().getSelectedItem());
+                                                            towarComboBox.getSelectionModel().getSelectedItem(),
+                                                            Integer.parseInt(textIlosc.getText())* towarComboBox.getSelectionModel().getSelectedItem().getcena());
             baza.dodajZamowienie(zamowienie);
             WyczyscZamowienie();
             aktualizujTabeleZamowienia();
@@ -384,7 +387,7 @@ public class Controller {
                                                 }
                                             })
                                             .findFirst()
-                                            .get().getNazwa()));
+                                            .get().getNazwa(),resultZamowienia.getInt(6)));
 
 
             }

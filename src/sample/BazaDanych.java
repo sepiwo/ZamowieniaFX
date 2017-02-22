@@ -30,7 +30,7 @@ public class BazaDanych {
             Wykonaj("CREATE TABLE IF NOT EXISTS OSOBY(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
             Wykonaj("CREATE TABLE IF NOT EXISTS TOWAR(id_towar INTEGER PRIMARY KEY AUTOINCREMENT, nazwa TEXT,rozmiar TEXT, cena INTEGER)");
             //Wykonaj("CREATE TABLE IF NOT EXISTS MAGAZYN(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
-            Wykonaj("CREATE TABLE IF NOT EXISTS ZAMOWIENIA(id_zamowienia INTEGER PRIMARY KEY AUTOINCREMENT, Towar TEXT, Ilosc TEXT, id_osoby INTEGER, id_towaru INTEGER)");
+            Wykonaj("CREATE TABLE IF NOT EXISTS ZAMOWIENIA(id_zamowienia INTEGER PRIMARY KEY AUTOINCREMENT, Towar TEXT, Ilosc TEXT, id_osoby INTEGER, id_towaru INTEGER, koszt INTEGER)");
             //Wykonaj("CREATE TABLE IF NOT EXISTS PRZYPOMNIENIA(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMERIC, email CHAR,stanowisko CHAR)");
 
         } catch (Exception e) {
@@ -95,7 +95,8 @@ public class BazaDanych {
 
 
         //            Wykonaj("CREATE TABLE IF NOT EXIST OSOBY(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMEERIC, email CHAR,stanowisko C +HAR)");
-        Wykonaj("INSERT INTO ZAMOWIENIA VALUES (NULL, '" + zamowienie.towar + "',' " + zamowienie.ilosc + "','" + zamowienie.id_osoby + "', '" + zamowienie.id_towaru + "')");
+        Wykonaj("INSERT INTO ZAMOWIENIA VALUES (NULL, '" + zamowienie.towar + "',' " + zamowienie.ilosc + "'," +
+                "'" + zamowienie.id_osoby + "', '" + zamowienie.id_towaru + "','" + zamowienie.koszt + "')");
 
     }
 
