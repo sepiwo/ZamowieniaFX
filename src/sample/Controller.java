@@ -346,6 +346,8 @@ public class Controller {
             baza.dodajZamowienie(zamowienie);
             WyczyscZamowienie();
             aktualizujTabeleZamowienia();
+            aktualizujTableTowar();
+
         }
     }
 

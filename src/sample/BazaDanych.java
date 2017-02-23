@@ -93,11 +93,12 @@ public class BazaDanych {
 
     public void dodajZamowienie(NoweZamowienie zamowienie) {
 
-
+        //String polecenie = "update TOWAR set rozmiar = CAST(rozmiar AS integer)-"+ zamowienie.ilosc +" where id_towar=" +zamowienie.id_towaru;
         //            Wykonaj("CREATE TABLE IF NOT EXIST OSOBY(id_osoby INTEGER PRIMARY KEY AUTOINCREMENT, Imie TEXT,NAZWISKO CHAR, telefon NUMEERIC, email CHAR,stanowisko C +HAR)");
         Wykonaj("INSERT INTO ZAMOWIENIA VALUES (NULL, '" + zamowienie.towar + "',' " + zamowienie.ilosc + "'," +
                 "'" + zamowienie.id_osoby + "', '" + zamowienie.id_towaru + "','" + zamowienie.koszt + "')");
 
+        Wykonaj("update TOWAR set rozmiar = CAST(rozmiar AS integer)-"+ zamowienie.ilosc +" where id_towar=" +zamowienie.id_towaru);
     }
 
 
@@ -137,6 +138,8 @@ public class BazaDanych {
 
         //            Wykonaj("CREATE TABLE IF NOT EXISTS TOWAR(id_towar INTEGER PRIMARY KEY AUTOINCREMENT, nazwa TEXT,rozmiar TEXT");
         Wykonaj("INSERT INTO TOWAR VALUES (NULL, '" + towar.nazwa + "',' " + towar.rozmiar + "', '" + towar.cena + "')");
+
+
 
     }
 
