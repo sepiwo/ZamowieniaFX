@@ -152,13 +152,41 @@ public class Controller {
 
     @FXML
     void DodajNowaOsoba(ActionEvent event) {
-        System.out.println("Dodaje nowa osobe do bazy...");
-        NowaOsoba osoba = new NowaOsoba(textImie.getText(),textNazwisko.getText(),textTelefon.getText(), textEmail.getText(), textStanowisko.getText());
-        baza.dodajOsobe(osoba);
-        WyczyscOsoba();
-        aktualizujTableOsoby();
-        aktualizujComboBoxy();
+        boolean isTelefonCorrect=false;
+        boolean isTelefonHasCorrectCount=false;
+        if (textTelefon.getText().length() == 9)
+        {
+            isTelefonHasCorrectCount = true;
+        }
 
+        try
+        {
+            int foo = Integer.parseInt(textTelefon.getText());
+            isTelefonCorrect=true;
+        } catch (Exception e)
+        {
+
+        }
+
+        if (!isTelefonHasCorrectCount)
+        {
+            new Alert(Alert.AlertType.ERROR, "Zła ilość znaków").showAndWait();
+
+        }
+        else if(!isTelefonCorrect)
+        {
+            new Alert(Alert.AlertType.ERROR, "Numer telefonu musi składać się z liczb").showAndWait();
+        }
+        else
+            {
+            System.out.println("Dodaje nowa osobe do bazy...");
+            NowaOsoba osoba = new NowaOsoba(textImie.getText(),textNazwisko.getText(),textTelefon.getText(), textEmail.getText(), textStanowisko.getText());
+            baza.dodajOsobe(osoba);
+            WyczyscOsoba();
+            aktualizujTableOsoby();
+            aktualizujComboBoxy();
+
+        }
     }
 
     private void aktualizujComboBoxy() {
