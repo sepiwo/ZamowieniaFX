@@ -152,43 +152,45 @@ public class Controller {
 
     @FXML
     void DodajNowaOsoba(ActionEvent event) {
-        boolean isTelefonCorrect=false;
-        boolean isTelefonHasCorrectCount=false;
-        if (textTelefon.getText().length() == 9)
-        {
-            isTelefonHasCorrectCount = true;
-        }
 
-        try
-        {
-            int foo = Integer.parseInt(textTelefon.getText());
-            isTelefonCorrect=true;
-        } catch (Exception e)
-        {
+        boolean isTelefonCorrect = false;
+        boolean isTelefonHasCorrectCount = false;
 
-        }
-
-        if (!isTelefonHasCorrectCount)
-        {
-            new Alert(Alert.AlertType.ERROR, "Zła ilość znaków").showAndWait();
-
-        }
-        else if(!isTelefonCorrect)
-        {
-            new Alert(Alert.AlertType.ERROR, "Numer telefonu musi składać się z liczb").showAndWait();
-        }
-        else
+       if (textImie.getText().trim().isEmpty() ||textImie.getText() == null  ||
+                textNazwisko.getText().trim().isEmpty() || textNazwisko.getText() == null ||
+                textTelefon.getText().trim().isEmpty() || textTelefon.getText() == null ||
+                textEmail.getText().trim().isEmpty() || textEmail.getText() == null ||
+                textStanowisko.getText().trim().isEmpty() || textStanowisko.getText() == null)
             {
-            System.out.println("Dodaje nowa osobe do bazy...");
-            NowaOsoba osoba = new NowaOsoba(textImie.getText(),textNazwisko.getText(),textTelefon.getText(), textEmail.getText(), textStanowisko.getText());
-            baza.dodajOsobe(osoba);
-            WyczyscOsoba();
-            aktualizujTableOsoby();
-            aktualizujComboBoxy();
+                 new Alert(Alert.AlertType.ERROR, "Uzupełnij wszystkie pola").showAndWait();
+            }
+                else {
+            if (textTelefon.getText().length() == 9) {
+                isTelefonHasCorrectCount = true;
+            }
 
+            try {
+                int foo = Integer.parseInt(textTelefon.getText());
+                isTelefonCorrect = true;
+            } catch (Exception e) {
+            }
+
+            if (!isTelefonHasCorrectCount) {
+                new Alert(Alert.AlertType.ERROR, "Niepoprawna ilość cyfr w numerze telefonu").showAndWait();
+
+            } else if (!isTelefonCorrect) {
+                new Alert(Alert.AlertType.ERROR, "Numer telefonu musi składać się z cyfr").showAndWait();
+            } else {
+                System.out.println("Dodaje nowa osobe do bazy...");
+                NowaOsoba osoba = new NowaOsoba(textImie.getText(), textNazwisko.getText(), textTelefon.getText(), textEmail.getText(), textStanowisko.getText());
+                baza.dodajOsobe(osoba);
+                WyczyscOsoba();
+                aktualizujTableOsoby();
+                aktualizujComboBoxy();
+
+            }
         }
     }
-
     private void aktualizujComboBoxy() {
 //        final ObservableList<String> pracownicy = FXCollections.observableArrayList();
 //        for (Osoby osoba : getOsobydane()) {
@@ -207,6 +209,12 @@ public class Controller {
         textStanowisko.setText(osoba.getStanowisko());
         labeIDOsoba.setText(osoba.getId().toString());
 
+
+    }
+    void PokazTowar(Towar towary){
+     textNazwa.setText(towary.getNazwa());
+     textRozmiar.setText(towary.getrozmiar());
+     textCena.setText(towary.getcena().toString());
 
     }
 
@@ -271,19 +279,60 @@ public class Controller {
     void WyczyscTowarButtonClicked(ActionEvent actionEvent) {
         WyczyscTowar();
     }
+
     @FXML
     void DodajNowyTowar(ActionEvent actionEvent) {
-        System.out.println("Dodaje nowy towar do bazy...");
-        NowyTowar towar = new NowyTowar(textNazwa.getText(), textRozmiar.getText(), textCena.getText());
-        baza.dodajTowar(towar);
-        WyczyscTowar();
-        aktualizujTableTowar();
+
+        if (textNazwa.getText().trim().isEmpty() || textNazwa.getText() == null || textRozmiar.getText().trim().isEmpty() || textRozmiar.getText() == null ||
+                textCena.getText() == null || textCena.getText().trim().isEmpty()) {
+            new Alert(Alert.AlertType.ERROR, "Uzupełnij wszystkie pola").showAndWait();
+
+        }
+        else
+        {
+            boolean isIloscCorrect = false;
+            boolean isCenaCorrect = false;
+
+            try {
+                int foo = Integer.parseInt(textRozmiar.getText());
+                isIloscCorrect = true;
+
+            }
+            catch (Exception e)
+            {}
+
+            try {
+                int foo2 = Integer.parseInt(textCena.getText());
+                isCenaCorrect = true;
+
+            }
+            catch (Exception e)
+            {}
+
+
+
+            if (!isCenaCorrect)
+            {
+                new Alert(Alert.AlertType.ERROR, "Niepoprawny format ceny").showAndWait();
+            }
+            else if (!isIloscCorrect)
+            {
+                new Alert(Alert.AlertType.ERROR, "Niepoprawny format ilosci").showAndWait();
+            }
+            else
+            {
+
+
+                System.out.println("Dodaje nowy towar do bazy...");
+                NowyTowar towar = new NowyTowar(textNazwa.getText(), textRozmiar.getText(), textCena.getText());
+                baza.dodajTowar(towar);
+                WyczyscTowar();
+                aktualizujTableTowar();
+            }
+
+        }
     }
-    void PokazTowar(Towar towar){
-        textImie.setText(towar.getNazwa());
-        textNazwisko.setText(towar.getrozmiar());
-        textCena.setText(towar.getcena().toString());
-    }
+
     @FXML
     void UsunTowarButtonClicked(ActionEvent actionEvent) {
         Integer wybranaTowarID = Tabela_towar.getSelectionModel().getSelectedItem().getId();
@@ -429,6 +478,7 @@ public class Controller {
 
         }
     }
+
 
     void PokazZamowienia(Zamowienie zamowienie){
         //textTowar.setText(zamowienie.getTowar());

@@ -125,8 +125,9 @@ public class BazaDanych {
     public void aktualizujtabelezamowienia() {
         //Wykonaj();
     }
+
     public void aktualizujOsoba() {
-        //Wykonaj();
+       //Wykonaj("INSERT INTO OSOBY VALUES (NULL, '" + osoba.imie + "',' " + osoba.nazwisko + "',' " + osoba.telefon + "',' " + osoba.email + "',' " + osoba.stanowisko + "')");
     }
 
     public ResultSet getTowary() {
@@ -157,7 +158,8 @@ public class BazaDanych {
     }
 
 
-    public String imieNazwiskoPracownika(int id_osoby) throws SQLException {
+    public String imieNazwiskoPracownika(int id_osoby) throws SQLException
+    {
         String polecenie = "SELECT * FROM OSOBY where id_osoby =" +id_osoby;
         ResultSet wynik = Pobierz(polecenie);
 
